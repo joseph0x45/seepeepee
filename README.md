@@ -1,2 +1,159 @@
-# hylki
-Learning to write a container in Go
+# Daily objectives
+
+# Days
+- [ ] Day 1
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 2
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 3
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 4
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 5
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 6
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 7
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 8
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 9
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 10
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 11
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 12
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 13
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 14
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 15
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 16
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 17
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 18
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 19
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 20
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 21
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 22
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 23
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 24
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 100
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 26
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 27
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 28
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 29
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 30
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+- [ ] Day 31
+  - [ ] 10k steps
+  - [ ] 100 burpees
+  - [ ] No sugar
+  - [ ] 5min of plank
+
