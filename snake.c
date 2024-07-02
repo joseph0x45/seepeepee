@@ -199,6 +199,10 @@ int main(int argc, char **argv) {
 
   while (game->running) {
     draw_game(game);
+    // check if user lost
+    if (game->snake->body[0]->X <= 0 || game->snake->body[0]->Y <= 0) {
+      game->running = 0;
+    }
     int pressed = getch();
     set_next_direction(game->snake, pressed);
     move_snake(game->snake);
@@ -206,7 +210,7 @@ int main(int argc, char **argv) {
     slow_down(200);
     clear();
   }
-
   endwin();
+  printf("You lost\n");
   return 0;
 }
