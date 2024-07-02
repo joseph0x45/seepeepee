@@ -12,7 +12,6 @@ typedef enum {
   RIGHT,
   UP,
   DOWN,
-  INVALID,
 } Directions;
 
 typedef struct {
@@ -46,23 +45,36 @@ void translate_point(Point *point, Directions direction) {
   case DOWN:
     point->Y++;
     break;
-  case INVALID:
-    return;
   }
 }
 
-Directions key_press_to_direction(int key_press) {
+void set_next_direction(Snake *snake, int key_press) {
   switch (key_press) {
   case KEY_UP:
-    return UP;
+    if (snake->direction == DOWN) {
+      break;
+    }
+    snake->direction = UP;
+    break;
   case KEY_DOWN:
-    return DOWN;
+    if (snake->direction == UP) {
+      break;
+    }
+    snake->direction = DOWN;
+    break;
   case KEY_LEFT:
-    return LEFT;
+    if (snake->direction == RIGHT) {
+      break;
+    }
+    snake->direction = LEFT;
+    break;
   case KEY_RIGHT:
-    return RIGHT;
+    if (snake->direction == LEFT) {
+      break;
+    }
+    snake->direction = RIGHT;
+    break;
   }
-  return INVALID;
 }
 
 const char *direction_to_str(Directions d) {
@@ -75,18 +87,7 @@ const char *direction_to_str(Directions d) {
     return "left";
   case RIGHT:
     return "right";
-  case INVALID:
-    return "invalid";
   }
-}
-
-int directions_opposed(Directions d1, Directions d2) {
-  int left_right = (d1 == LEFT && d2 == RIGHT) || (d1 == RIGHT && d2 == LEFT);
-  int up_down = (d1 == UP && d2 == DOWN) || (d1 == DOWN && d2 == UP);
-  if (left_right || up_down) {
-    return 1;
-  }
-  return 0;
 }
 
 void free_game(Game *game) {
@@ -142,14 +143,7 @@ Game *init_game(int maxX, int maxY) {
   return game;
 }
 
-void move_snake(Snake *snake, Directions direction) {
-  if (direction == INVALID) {
-    return;
-  }
-  if (directions_opposed(snake->direction, direction) == 1) {
-    return;
-  }
-  snake->direction = direction;
+void move_snake(Snake *snake) {
   for (int i = 0; i < snake->size; i++) {
     Point *p = snake->body[i];
     if (p == NULL) {
@@ -206,12 +200,8 @@ int main(int argc, char **argv) {
   while (game->running) {
     draw_game(game);
     int pressed = getch();
-    if (pressed == ERR) {
-      printw("no input");
-      refresh();
-      pressed = game->snake->direction;
-    }
-    move_snake(game->snake, key_press_to_direction(pressed));
+    set_next_direction(game->snake, pressed);
+    move_snake(game->snake);
     refresh();
     slow_down(200);
     clear();
