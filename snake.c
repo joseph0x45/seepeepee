@@ -95,6 +95,11 @@ void free_game(Game *game) {
     free(game->snake->body);
   }
   if (game->snake != NULL) {
+    for (int i = 0; i < game->snake->size; i++) {
+      if (game->snake->body[i] != NULL) {
+        free(game->snake->body[i]);
+      }
+    }
     free(game->snake);
   }
   if (game != NULL) {
@@ -139,18 +144,23 @@ Game *init_game(int maxX, int maxY) {
     return NULL;
   }
   game->snake->body[0] = snake_initial_position;
+  Point *p1 = malloc(sizeof(Point));
+  p1->X = INITIAL_SNAKE_POSITION_X - 1;
+  p1->Y = INITIAL_SNAKE_POSITION_Y;
+  game->snake->body[1] = p1;
   game->snake->direction = RIGHT;
   return game;
 }
 
 void move_snake(Snake *snake) {
-  for (int i = 0; i < snake->size; i++) {
-    Point *p = snake->body[i];
-    if (p == NULL) {
-      break;
+  for (int i = snake->size - 1; i > 0; i--) {
+    if (snake->body[i] == NULL) {
+      continue;
     }
-    translate_point(p, snake->direction);
+    snake->body[i]->X = snake->body[i - 1]->X;
+    snake->body[i]->Y = snake->body[i - 1]->Y;
   }
+  translate_point(snake->body[0], snake->direction);
 }
 
 void slow_down(int milliseconds) {
@@ -158,14 +168,6 @@ void slow_down(int milliseconds) {
   req.tv_sec = milliseconds / 1000;
   req.tv_nsec = (milliseconds % 1000) * 1000000L;
   nanosleep(&req, &rem);
-}
-
-void print_current_game_stats(Game *game) {
-  // print current snake direction
-  mvprintw(1, 1, "%s", direction_to_str(game->snake->direction));
-  // print snake head
-  mvprintw(2, 2, "X %d; Y %d", game->snake->body[0]->X,
-           game->snake->body[0]->Y);
 }
 
 void draw_game(Game *game) {
@@ -177,7 +179,6 @@ void draw_game(Game *game) {
     }
     mvprintw(point->Y, point->X, "#");
   }
-  print_current_game_stats(game);
   refresh();
 }
 
