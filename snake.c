@@ -12,6 +12,7 @@ typedef enum {
   RIGHT,
   UP,
   DOWN,
+  INVALID,
 } Directions;
 
 typedef struct {
@@ -30,6 +31,44 @@ typedef struct {
   Point food;
   int running;
 } Game;
+
+Directions key_press_to_direction(int key_press) {
+  switch (key_press) {
+  case KEY_UP:
+    return UP;
+  case KEY_DOWN:
+    return DOWN;
+  case KEY_LEFT:
+    return LEFT;
+  case KEY_RIGHT:
+    return RIGHT;
+  }
+  return INVALID;
+}
+
+const char *direction_to_str(Directions d) {
+  switch (d) {
+  case UP:
+    return "up";
+  case DOWN:
+    return "down";
+  case LEFT:
+    return "left";
+  case RIGHT:
+    return "right";
+  case INVALID:
+    return "invalid";
+  }
+}
+
+int directions_opposed(Directions d1, Directions d2) {
+  int left_right = (d1 == LEFT && d2 == RIGHT) || (d1 == RIGHT && d2 == LEFT);
+  int up_down = (d1 == UP && d2 == DOWN) || (d1 == DOWN && d2 == UP);
+  if (left_right || up_down) {
+    return 1;
+  }
+  return 0;
+}
 
 void free_game(Game *game) {
   if (game->snake->body != NULL) {
@@ -83,6 +122,17 @@ Game *init_game(int maxX, int maxY) {
   return game;
 }
 
+void move_snake(Snake *snake, Directions direction) {
+  if (direction == INVALID) {
+    return;
+  }
+  if (directions_opposed(snake->direction, direction) == 1) {
+    return;
+  }
+  snake->direction = direction;
+  printw("direction changed to %s", direction_to_str(snake->direction));
+}
+
 void slow_down(int milliseconds) {
   struct timespec req, rem;
   req.tv_sec = milliseconds / 1000;
@@ -120,16 +170,7 @@ int main(int argc, char **argv) {
   while (game->running) {
     draw_game(game);
     int pressed = getch();
-    switch (pressed) {
-    case KEY_UP:
-      game->snake->direction = UP;
-    case KEY_LEFT:
-      game->snake->direction = LEFT;
-    case KEY_RIGHT:
-      game->snake->direction = RIGHT;
-    case KEY_DOWN:
-      game->snake->direction = DOWN;
-    }
+    move_snake(game->snake, key_press_to_direction(pressed));
     slow_down(200);
   }
 
