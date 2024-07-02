@@ -170,6 +170,17 @@ void slow_down(int milliseconds) {
   nanosleep(&req, &rem);
 }
 
+int get_tail_position(Snake *snake) {
+  int p = 0;
+  for (int i = 0; i < snake->size; i++) {
+    if (snake->body[i + 1] == NULL) {
+      p = i;
+      break;
+    }
+  }
+  return p;
+}
+
 void draw_game(Game *game) {
   mvprintw(game->food.Y, game->food.X, "o");
   for (int i = 0; i < game->snake->size; i++) {
@@ -179,7 +190,35 @@ void draw_game(Game *game) {
     }
     mvprintw(point->Y, point->X, "#");
   }
+  mvprintw(0, 0, "Tail position: %d", get_tail_position(game->snake));
   refresh();
+}
+
+void grow_snake(Snake *snake) {
+  int tail_position = get_tail_position(snake);
+  if (tail_position + 1 == snake->size) {
+    return;
+  }
+  Point *p = malloc(sizeof(Point));
+  switch (snake->direction) {
+  case LEFT:
+    p->Y = snake->body[tail_position]->Y;
+    p->X = snake->body[tail_position]->X - 1;
+    break;
+  case RIGHT:
+    p->Y = snake->body[tail_position]->Y;
+    p->X = snake->body[tail_position]->X + 1;
+    break;
+  case UP:
+    p->Y = snake->body[tail_position]->Y + 1;
+    p->X = snake->body[tail_position]->X;
+    break;
+  case DOWN:
+    p->Y = snake->body[tail_position]->Y - 1;
+    p->X = snake->body[tail_position]->X;
+    break;
+  }
+  snake->body[tail_position + 1] = p;
 }
 
 int main(int argc, char **argv) {
@@ -201,14 +240,23 @@ int main(int argc, char **argv) {
   while (game->running) {
     draw_game(game);
     // check if user lost
-    if (game->snake->body[0]->X <= 0 || game->snake->body[0]->Y <= 0) {
-      game->running = 0;
-    }
     int pressed = getch();
     set_next_direction(game->snake, pressed);
     move_snake(game->snake);
+    int snake_hit_walls =
+        game->snake->body[0]->X <= 0 || game->snake->body[0]->Y <= 0;
+    int snake_went_past_maxyx =
+        game->snake->body[0]->X >= rows || game->snake->body[0]->Y >= cols;
+    if (snake_hit_walls || snake_went_past_maxyx) {
+      game->running = 0;
+    }
+    if (game->snake->body[0]->X == game->food.X &&
+        game->snake->body[0]->Y == game->food.Y) {
+      grow_snake(game->snake);
+      game->food = get_random_point(cols, rows);
+    }
     refresh();
-    slow_down(200);
+    slow_down(50);
     clear();
   }
   endwin();
