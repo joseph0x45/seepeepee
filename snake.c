@@ -4,8 +4,8 @@
 #include <time.h>
 
 const int INITIAL_SNAKE_SIZE = 10;
-const int INITIAL_SNAKE_POSITION_X = 10;
-const int INITIAL_SNAKE_POSITION_Y = 10;
+const int INITIAL_SNAKE_POSITION_X = 5;
+const int INITIAL_SNAKE_POSITION_Y = 5;
 
 typedef enum {
   LEFT,
@@ -31,6 +31,25 @@ typedef struct {
   Point food;
   int running;
 } Game;
+
+void translate_point(Point *point, Directions direction) {
+  switch (direction) {
+  case LEFT:
+    point->X--;
+    break;
+  case RIGHT:
+    point->X++;
+    break;
+  case UP:
+    point->Y--;
+    break;
+  case DOWN:
+    point->Y++;
+    break;
+  case INVALID:
+    return;
+  }
+}
 
 Directions key_press_to_direction(int key_press) {
   switch (key_press) {
@@ -119,6 +138,7 @@ Game *init_game(int maxX, int maxY) {
     return NULL;
   }
   game->snake->body[0] = snake_initial_position;
+  game->snake->direction = RIGHT;
   return game;
 }
 
@@ -130,7 +150,13 @@ void move_snake(Snake *snake, Directions direction) {
     return;
   }
   snake->direction = direction;
-  printw("direction changed to %s", direction_to_str(snake->direction));
+  for (int i = 0; i < snake->size; i++) {
+    Point *p = snake->body[i];
+    if (p == NULL) {
+      break;
+    }
+    translate_point(p, snake->direction);
+  }
 }
 
 void slow_down(int milliseconds) {
@@ -138,6 +164,14 @@ void slow_down(int milliseconds) {
   req.tv_sec = milliseconds / 1000;
   req.tv_nsec = (milliseconds % 1000) * 1000000L;
   nanosleep(&req, &rem);
+}
+
+void print_current_game_stats(Game *game) {
+  // print current snake direction
+  mvprintw(1, 1, "%s", direction_to_str(game->snake->direction));
+  // print snake head
+  mvprintw(2, 2, "X %d; Y %d", game->snake->body[0]->X,
+           game->snake->body[0]->Y);
 }
 
 void draw_game(Game *game) {
@@ -149,6 +183,7 @@ void draw_game(Game *game) {
     }
     mvprintw(point->Y, point->X, "#");
   }
+  print_current_game_stats(game);
   refresh();
 }
 
@@ -161,6 +196,7 @@ int main(int argc, char **argv) {
   curs_set(0);
   keypad(stdscr, true);
   getmaxyx(stdscr, cols, rows);
+  nodelay(stdscr, TRUE);
   Game *game = init_game(rows, cols);
   if (game == NULL) {
     endwin();
@@ -170,8 +206,15 @@ int main(int argc, char **argv) {
   while (game->running) {
     draw_game(game);
     int pressed = getch();
+    if (pressed == ERR) {
+      printw("no input");
+      refresh();
+      pressed = game->snake->direction;
+    }
     move_snake(game->snake, key_press_to_direction(pressed));
+    refresh();
     slow_down(200);
+    clear();
   }
 
   endwin();
