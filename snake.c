@@ -221,6 +221,19 @@ void grow_snake(Snake *snake) {
   snake->body[tail_position + 1] = p;
 }
 
+int snake_hit_itself(Snake *snake) {
+  for (int i = 1; i < snake->size; i++) {
+    Point *p1 = snake->body[i];
+    if (p1 == NULL) {
+      continue;
+    }
+    if (p1->Y == snake->body[0]->Y && p1->X == snake->body[0]->X) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
 int main(int argc, char **argv) {
   int rows, cols;
   srand(time(NULL));
@@ -247,7 +260,8 @@ int main(int argc, char **argv) {
         game->snake->body[0]->X <= 0 || game->snake->body[0]->Y <= 0;
     int snake_went_past_maxyx =
         game->snake->body[0]->X >= rows || game->snake->body[0]->Y >= cols;
-    if (snake_hit_walls || snake_went_past_maxyx) {
+    if (snake_hit_walls || snake_went_past_maxyx ||
+        snake_hit_itself(game->snake)) {
       game->running = 0;
     }
     if (game->snake->body[0]->X == game->food.X &&
